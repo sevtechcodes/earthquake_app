@@ -99,5 +99,31 @@ Add the following for the basic authentication:
 
 Go to (Javascript client)[https://www.elastic.co/docs/reference/elasticsearch/clients/javascript] as we are using Node.js. This will allow your app to communicate with Elastic search cluster.
 
-Create a new instance of Elastic search client. This client will contain our elasticclub access credentials that points to our ES cluster. Then we will setup our server to connect to Elastic cloud and display a message in the terminal of its connection status. To do so in the **server** directory create a new directory named **elasticsearch** => **client.js** file. In the file write the following:
+- Create a new instance of Elastic search client. This client will contain our elasticclub access credentials that points to our ES cluster. Then we will setup our server to connect to Elastic cloud and display a message in the terminal of its connection status. To do so in the **server** directory create a new directory named **elasticsearch** => **client.js** file. In the file write the following:
 
+```javascript
+const {Client} = require('@elastic/elasticsearch');
+config = require('config');
+const elasticConfig = config.get('elastic');	
+
+const client = new Client({
+	cloud: {
+		id: elasticConfig.cloudID
+	},
+	auth: {
+		username: elasticConfig.username,
+		password: elasticConfig.password
+	},
+});
+
+client.ping()
+.then(() => console.log('You are connected to Elasticsearch!'))
+.catch(console.error('Elasticesearch is not connected'));
+
+module.exports = client;
+```
+- Add the following line into the server.js, where we create cluster.
+
+```javascript
+const client = require('./elasticsearch/client');
+```
