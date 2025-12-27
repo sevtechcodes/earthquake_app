@@ -2,6 +2,7 @@
   "elastic": {
     "cloudID": "",
     "username": "",
-    "password": ""
+    "password": "",
+		"apiKey": ""
   }
 }
