@@ -1,5 +1,6 @@
 # Offical Elastic Community - Earthquake App
-## Create project on local and run it
+## S2E2 - Building Server using Node.js with Express
+### Create project on local and run it
 - On terminal
 ``` 
 mkdir earthquake_app
@@ -63,3 +64,40 @@ git commit -m 'Initial commit'
 git remote add origin https://github.com/username/repository.git
 git push -u origin master
 ```
+
+## S2E3 - Create an Elastic Cloud deployment
+- Select a distribution model for your unique needs: Self-managed / Elastic Cloud / Elastic Cloud Enterprice / Elastic Cloud on Kubernetes.
+We will use **Elastic Cloud**. 
+
+### Create Elastic Cloud account
+Try (Free 30 day trial)[https://cloud.elastic.co/registration?pg=global&plcmt=nav&cta=205352-primary]
+(API Doc)[https://www.elastic.co/docs/api/doc/elasticsearch/operation/operation-license-post-start-trial]
+
+Click on (**Create hosted deployment**)[https://cloud.elastic.co/home] => Choose Elasticsearch => Give a name of your choice to your deployment like Earthquake-App-Deployment => Click on Create hosted deployment.
+Save the deployment credentials username and password somewhere immediately, as they will disappear. 
+Your deployment is ready after that! The page will direct you to a page that you can create your first index.
+
+## S2E4 - Connect securely the Node.js server to Elastic Cloud
+### Authentication types
+There are 2 ways to connect to the Elastic Cloud
+ - Basic authentication (logging in as a user)
+ - API key => Best practice for production
+
+To use API key, log into Elastic Cloud as a user first by basic authentication. 
+In the repo, create **config** directory to store Elastic Cloud credentials => **default.json** file.
+Add the following for the basic authentication:
+```javascript
+{
+	"elastic": {
+		"cloudID": "your deployment id", //this can be found under deployment list-> your deployment 'Cloud ID'
+		"username": "username",
+		"password": "password"
+	}
+}
+```
+### Connect server to communicate with Elastic Cloud securely with Elastic Search client
+
+Go to (Javascript client)[https://www.elastic.co/docs/reference/elasticsearch/clients/javascript] as we are using Node.js. This will allow your app to communicate with Elastic search cluster.
+
+Create a new instance of Elastic search client. This client will contain our elasticclub access credentials that points to our ES cluster. Then we will setup our server to connect to Elastic cloud and display a message in the terminal of its connection status. To do so in the **server** directory create a new directory named **elasticsearch** => **client.js** file. In the file write the following:
+
