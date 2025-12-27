@@ -1,7 +1,7 @@
 {
-	"elastic": {
-		"cloudID":"Deployment ID",
-		"username":"username",
-		"password":"password"
-	}
+  "elastic": {
+    "cloudID": "",
+    "username": "",
+    "password": ""
+  }
 }

@@ -1,0 +1,7 @@
+{
+  "elastic": {
+    "cloudID": "ELASTIC_ID",
+    "username": "ELASTIC_USERNAME",
+    "password": "ELASTIC_PASSWORD"
+  }
+}

@@ -84,17 +84,34 @@ There are 2 ways to connect to the Elastic Cloud
  - API key => Best practice for production
 
 To use API key, log into Elastic Cloud as a user first by basic authentication. 
-In the repo, create **config** directory to store Elastic Cloud credentials => **default.json** file.
+In the repo, create **config** directory to store Elastic Cloud credentials => **default.json** and **custom-environment-variables.json**files.
 Add the following for the basic authentication:
+
+default.js
 ```javascript
 {
 	"elastic": {
-		"cloudID": "your deployment id", //this can be found under deployment list-> your deployment 'Cloud ID'
-		"username": "username",
-		"password": "password"
+		"cloudID": "", //this can be found under deployment list-> your deployment 'Cloud ID'
+		"username": "",
+		"password": ""
 	}
 }
 ```
+
+custom-environment-variables.json
+```javascript
+{
+  "elastic": {
+    "cloudID": "ELASTIC_ID",
+    "username": "ELASTIC_USERNAME",
+    "password": "ELASTIC_PASSWORD"
+  }
+}
+```
+
+Create ELASTIC_ID, ELASTIC_USERNAME, ELASTIC_PASSWORD in .env file with actual credentails.
+
+
 ### Connect server to communicate with Elastic Cloud securely with Elastic Search client
 
 Go to (Javascript client)[https://www.elastic.co/docs/reference/elasticsearch/clients/javascript] as we are using Node.js. This will allow your app to communicate with Elastic search cluster.
@@ -127,3 +144,6 @@ module.exports = client;
 ```javascript
 const client = require('./elasticsearch/client');
 ```
+Finally the server is running fine and 'Elasticsearcj is connected'!
+
+### Create API key
