@@ -214,5 +214,86 @@ with this
 Now our app is using API key to connect instead of basic auth.
 
 ## S2E5  - Plan for effient data storage & search performance in Elasticsearch
-### 
+### Assess the API data 
 
+- Determine what data we need
+- Discover if we need to transform the data to fit our use case
+- Decide on the desired mapping for efficient storage and search of data
+
+We will use the last 30 days of the earthquakes data so be sure to have this page pulled up as we are going over it. 
+
+![Data Card we need for Frontend-FE](images/image-5.png)
+The information shown here is what we need from the USGS API. We will store this information on Elasticsearch in the form of documents. Each document will contain information about one earthquake.
+
+**Examine the data struture of the earthquake API**
+- (Earthquake Catalog Documentation)[https://earthquake.usgs.gov/data/comcat/index.php#nst]
+- (USGS website - output data structure of the earthquake api )[https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php]
+- (USGS Data of last 30 days)[https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson]
+
+Check USGS Output => Features
+```javascript
+ features: [
+    {
+      type: "Feature",
+      properties: {
+        mag: Decimal,
+        place: String,
+        time: Long Integer,
+        updated: Long Integer,
+        tz: Integer,
+        url: String,
+        detail: String,
+        felt:Integer,
+        cdi: Decimal,
+        mmi: Decimal,
+        alert: String,
+        status: String,
+        tsunami: Integer,
+        sig:Integer,
+        net: String,
+        code: String,
+        ids: String,
+        sources: String,
+        types: String,
+        nst: Integer,
+        dmin: Decimal,
+        rms: Decimal,
+        gap: Decimal,
+        magType: String,
+        type: String
+      },
+      geometry: {
+        type: "Point",
+        coordinates: [
+          longitude,
+          latitude,
+          depth
+        ]
+      },
+      id: String
+    },
+    …
+  ]
+```
+![Output comparison with the fields we need](images/image-6.png)
+
+To save storage, we will only index the fields mag, place, time, url, sig(significance), type, and coordinates array which includes longitude, latitude, and depth in that order.
+
+![Fields we need under 'Features'](images/image-7.png)
+
+### How to store this data using the smallest disk space while maximizing our search performance
+**Mapping** defines how a document and its fields are indexed and stored.
+It does that by assigning types to fields being indexed. Depending on the assigned field type, each field is indexed and primed for different types of requests(full text search, exact searches, aggregations, sorting & etc).
+
+Choose correct typed for each field
+- (Elasticsearch Field data types)[https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/field-data-types]
+- (Elasticsearch Numeric field types)[https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/number]
+- (Elasticsearch Geopoint field type)[https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/geo-point]
+
+![Table of the fields we need with data types](images/image-8.png)
+
+## S2E6  - Setup Elasticsearch for data transformation and data ingestion
+- create an ingest pipeline to transform the retrieved data
+- create an index called earthwuakes with the desired mapping
+
+### 
