@@ -1,4 +1,17 @@
-# Offical Elastic Community - Earthquake App
+# Offical Elastic Community - Earthquake Watch App
+
+## S2E1 - Project planning
+We are goinging to build a fullstack web app with Node.js and React. Then we will connect the server to Elastic Cloud. 
+![Frontend-part1](images/image.png)
+![Frontend-part2](images/image-1.png)
+
+Next we will ingest global earthquake data into Elasticsearch, we will be getting this data from the USGS API.
+![Data Ingest](images/image-2.png)
+![Data Playout](images/image-3.png)
+
+![Kibana Dashboard](images/image-4.png)
+
+
 ## S2E2 - Building Server using Node.js with Express
 ### Create project on local and run it
 - On terminal
@@ -199,3 +212,7 @@ with this
  apiKey: elasticConfig.apiKey
  ```
 Now our app is using API key to connect instead of basic auth.
+
+## S2E5  - Plan for effient data storage & search performance in Elasticsearch
+### 
+
