@@ -1,6 +1,6 @@
 # Offical Elastic Community - Earthquake Watch App
 
-## S2E1 - Project planning
+## S2E1 - (Project planning)[https://ela.st/mbcc-season2-blog-1]
 We are goinging to build a fullstack web app with Node.js and React. Then we will connect the server to Elastic Cloud. 
 ![Frontend-part1](images/image.png)
 ![Frontend-part2](images/image-1.png)
@@ -12,7 +12,7 @@ Next we will ingest global earthquake data into Elasticsearch, we will be gettin
 ![Kibana Dashboard](images/image-4.png)
 
 
-## S2E2 - Building Server using Node.js with Express
+## S2E2 - (Building Server using Node.js with Express)[https://ela.st/mbcc-season2-blog-2]
 ### Create project on local and run it
 - On terminal
 ``` 
@@ -78,7 +78,7 @@ git remote add origin https://github.com/username/repository.git
 git push -u origin master
 ```
 
-## S2E3 - Create an Elastic Cloud deployment
+## S2E3 - (Create an Elastic Cloud deployment)[https://ela.st/mbcc-season2-blog-3]
 - Select a distribution model for your unique needs: Self-managed / Elastic Cloud / Elastic Cloud Enterprice / Elastic Cloud on Kubernetes.
 We will use **Elastic Cloud**. 
 
@@ -90,7 +90,7 @@ Click on (**Create hosted deployment**)[https://cloud.elastic.co/home] => Choose
 Save the deployment credentials username and password somewhere immediately, as they will disappear. 
 Your deployment is ready after that! The page will direct you to a page that you can create your first index.
 
-## S2E4 - Connect securely the Node.js server to Elastic Cloud
+## S2E4 - (Connect securely the Node.js server to Elastic Cloud)[https://ela.st/mbcc-season2-blog-4]
 ### Authentication types
 There are 2 ways to connect to the Elastic Cloud
  - Basic authentication (logging in as a user)
@@ -213,7 +213,7 @@ with this
  ```
 Now our app is using API key to connect instead of basic auth.
 
-## S2E5  - Plan for effient data storage & search performance in Elasticsearch
+## S2E5  - (Plan for effient data storage & search performance in Elasticsearch0[https://ela.st/mbcc-season2-blog-5]
 ### Assess the API data 
 
 - Determine what data we need
@@ -292,8 +292,128 @@ Choose correct typed for each field
 
 ![Table of the fields we need with data types](images/image-8.png)
 
-## S2E6  - Setup Elasticsearch for data transformation and data ingestion
-- create an ingest pipeline to transform the retrieved data
-- create an index called earthwuakes with the desired mapping
+## S2E6  - (Setup Elasticsearch for data transformation and data ingestion)[https://ela.st/mbcc-season2-blog-6]
+1. create an **ingest pipeline** to transform the retrieved data
+2. create an index called **earthquakes** with the desired mapping
 
-### 
+### Ingest Pipeline
+
+![Data journey](images/image-9.png)
+
+In the Kibana console, copy and paste the following:
+```javascript
+PUT earthquakes
+{
+  "mappings": {
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "coordinates": {
+        "type": "geo_point"
+      },
+      "depth": {
+        "type": "float"
+      },
+      "mag": {
+        "type": "float"
+      },
+      "place": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "sig": {
+        "type": "short"
+      },
+      "type": {
+        "type": "keyword"
+      },
+      "url": {
+        "enabled": false
+      }
+    }
+  }
+}
+```
+We will create it on Elastic Cloud page => Deployment => Stack Management => Ingest Pipelines => Create pipeline => New pipeline
+
+Name your pipeline something like **earthquake_data_pipeline** .
+
+**Step1: Review the data transformation requirements**
+- remove unnecessary parts from data
+- change the Unix epoch time to human readable timestap
+- create a coordinates.lat and coordinates.log fields
+
+- **add processors:**
+ - remove the fields you dont need
+![remove the fields you dont need](images/image-10.png)
+ - change time format
+ ![alt text](images/image-11.png)
+ - remove time 
+ ![alt text](image.png)
+ - add coordinates
+ ![alt text](image-1.png)
+ ![alt text](image-2.png)
+
+We now have all the processors we need.
+
+**Step2: Create an ingest pipeline**
+There are 2 ways to create an ingest pipeline; Kibana Ingest pipeline feature or The Ingest API. 
+We will use Kibana Ingest Pipeline.
+
+Under the list of processors, click on the **Create pipeline** button. You will see the pipeline create.
+
+**Step2: Create an Index**
+Go to Kibana Dev tools and paste the desired mapping:
+
+```javascript
+PUT earthquakes
+{
+  "mappings": {
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "coordinates": {
+        "type": "geo_point"
+      },
+      "depth": {
+        "type": "float"
+      },
+      "mag": {
+        "type": "float"
+      },
+      "place": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "sig": {
+        "type": "short"
+      },
+      "type": {
+        "type": "keyword"
+      },
+      "url": {
+        "enabled": false
+      }
+    }
+  }
+}
+```
+On the right side you will get response of:
+
+```javascript
+{
+  "acknowledged": true,
+  "shards_acknowledged": true,
+  "index": "earthquakes"
+}
+```
