@@ -531,9 +531,21 @@ const data = require('./data_management/retrieve_and_ingest_data');
 
 app.use('/ingest_data', data);
 ```
-
+The server.js should look like this:
 ![alt text](images/image-17.png)
 
+Let's see how it works
+Copy and paste the following url in the address bar of your browser and hit enter:
+```javascript
+//in the address bar of your browser
+http://localhost:3001/ingest_data/earthquakes
+```
+
+We will see the following in the terminal acknowledging that the data is being retrieved, transformed, and ingested into Elasticsearch. You will also see that a timestamp has been prepended to the messages printed on the console!
+![alt text](images/image-18.png)
+
+Also on the browser we will see
+![alt text](images/image-19.png)
 ### Send the retrieved data to Elasticsearch earthquake_data_pipeline for data transformation
 ### Instruct Elasticsearch to ingest the transformed data into the earthquakes index
 
