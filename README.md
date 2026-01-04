@@ -354,10 +354,10 @@ Name your pipeline something like **earthquake_data_pipeline** .
  - change time format
  ![alt text](images/image-11.png)
  - remove time 
- ![alt text](image.png)
+  ![alt text](images/image-12.png)
  - add coordinates
- ![alt text](image-1.png)
- ![alt text](image-2.png)
+ ![alt text](images/image-13.png)
+ ![alt text](images/image-14.png)
 
 We now have all the processors we need.
 
@@ -417,3 +417,123 @@ On the right side you will get response of:
   "index": "earthquakes"
 }
 ```
+## S2E7  - (Set eu the Node.js server to retrieve API data and send the data to elasticsearch)[https://ela.st/mbcc-season2-blog-7]
+
+
+We will set up the server to retrieve data from the USGS api and then sne dthe retrieved data to Elasticsearch Earthquake data pipeline.
+![alt text](images/image-15.png)
+
+
+### Retrieve earthquake data from the USGS API
+In the project repo, under server folder, create a folder called **data_management**. Inside this folder create file called **retrieve_and_ingest_data.js**.
+This file will instruct the server to execute three things:
+ - Upon receiving an http request retirieve earthquake data from the USGS API
+ - Then send the retrieved data to ES Earthquake pipeline for data transformation
+ - Then instruct ES to ingest transformed data into the earthquake index
+
+Copy paste the following code into the etrieve_and_ingest_data.js file.
+ ```javascript
+ //in server/data_management/retrieve_and_ingest_data.js
+const express = require('express');
+const router = express.Router();
+const axios = require('axios');
+const client = require('../elasticsearch/client');
+require('log-timestamp');
+
+const URL = `https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson`;
+
+router.get('/earthquakes', async function (req, res) {
+  console.log('Loading Application...');
+  res.json('Running Application...');
+
+  indexData = async () => {
+    try {
+      console.log('Retrieving data from the USGS API');
+
+      const EARTHQUAKES = await axios.get(`${URL}`, {
+        headers: {
+          'Content-Type': ['application/json', 'charset=utf-8'],
+        },
+      });
+
+      console.log('Data retrieved!');
+
+      results = EARTHQUAKES.data.features;
+
+      console.log('Indexing data...');
+
+      results.map(
+        async (results) => (
+          (earthquakeObject = {
+            place: results.properties.place,
+            time: results.properties.time,
+            tz: results.properties.tz,
+            url: results.properties.url,
+            detail: results.properties.detail,
+            felt: results.properties.felt,
+            cdi: results.properties.cdi,
+            alert: results.properties.alert,
+            status: results.properties.status,
+            tsunami: results.properties.tsunami,
+            sig: results.properties.sig,
+            net: results.properties.net,
+            code: results.properties.code,
+            sources: results.properties.sources,
+            nst: results.properties.nst,
+            dmin: results.properties.dmin,
+            rms: results.properties.rms,
+            mag: results.properties.mag,
+            magType: results.properties.magType,
+            type: results.properties.type,
+            longitude: results.geometry.coordinates[0],
+            latitude: results.geometry.coordinates[1],
+            depth: results.geometry.coordinates[2],
+          }),
+          await client.index({
+            index: 'earthquakes',
+            id: results.id,
+            body: earthquakeObject,
+            pipeline: 'earthquake_data_pipeline',
+          })
+        )
+      );
+
+      if (EARTHQUAKES.data.length) {
+        indexData();
+      } else {
+        console.log('Data has been indexed successfully!');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    console.log('Preparing for the next round of indexing...');
+  };
+  indexData();
+});
+
+module.exports = router;
+
+```
+
+We create a variable called results. This variable is set equal to the retrieved earthquake data from the API.
+
+Remember the USGS API data structure covered in part 5?
+
+![alt text](images/image-16.png)
+**EARTHQUAKES.data.features** gives you access to the features array(green box).
+This array contains earthquake objects. Each object contains info about one earthquake.
+Within each object, the fields **properties**(orange box) and **geometry**(blue box) contain the information that we want(**pink box**).
+
+Next we will add the data ingestion route to **server.js**
+```javascript
+const data = require('./data_management/retrieve_and_ingest_data');
+
+app.use('/ingest_data', data);
+```
+
+![alt text](images/image-17.png)
+
+### Send the retrieved data to Elasticsearch earthquake_data_pipeline for data transformation
+### Instruct Elasticsearch to ingest the transformed data into the earthquakes index
+
