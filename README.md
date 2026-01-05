@@ -1,6 +1,6 @@
 # Offical Elastic Community - Earthquake Watch App
 
-## S2E1 - (Project planning)[https://ela.st/mbcc-season2-blog-1]
+## S2E1 - [Project planning](https://ela.st/mbcc-season2-blog-1)
 
 We are goinging to build a fullstack web app with Node.js and React. Then we will connect the server to Elastic Cloud. 
 ![Frontend-part1](images/image.png)
@@ -13,9 +13,8 @@ Next we will ingest global earthquake data into Elasticsearch, we will be gettin
 ![Kibana Dashboard](images/image-4.png)
 
 
-## S2E2 - (Building Server using Node.js with Express)[https://ela.st/mbcc-season2-blog-2]
-- GitHub repo for episode 2
-https://ela.st/mbcc-season2-repo-2
+## S2E2 - [Building server using Node.js with Express](https://ela.st/mbcc-season2-blog-2)
+[GitHub repo for episode 2](https://ela.st/mbcc-season2-repo-2)
 
 ### Create project on local and run it
 - On terminal
@@ -82,20 +81,20 @@ git remote add origin https://github.com/username/repository.git
 git push -u origin master
 ```
 
-## S2E3 - (Create an Elastic Cloud deployment)[https://ela.st/mbcc-season2-blog-3]
+## S2E3 - [Create an Elastic Cloud deployment](https://ela.st/mbcc-season2-blog-3)
 
 - Select a distribution model for your unique needs: Self-managed / Elastic Cloud / Elastic Cloud Enterprice / Elastic Cloud on Kubernetes.
 We will use **Elastic Cloud**. 
 
 ### Create Elastic Cloud account
-Try (Free 30 day trial)[https://cloud.elastic.co/registration?pg=global&plcmt=nav&cta=205352-primary]
-(API Doc)[https://www.elastic.co/docs/api/doc/elasticsearch/operation/operation-license-post-start-trial]
+Try [Free 30 day trial](https://cloud.elastic.co/registration?pg=global&plcmt=nav&cta=205352-primary)
+[API Doc](https://www.elastic.co/docs/api/doc/elasticsearch/operation/operation-license-post-start-trial)
 
-Click on (**Create hosted deployment**)[https://cloud.elastic.co/home] => Choose Elasticsearch => Give a name of your choice to your deployment like Earthquake-App-Deployment => Click on Create hosted deployment.
+Click on [**Create hosted deployment**](https://cloud.elastic.co/home) => Choose Elasticsearch => Give a name of your choice to your deployment like Earthquake-App-Deployment => Click on Create hosted deployment.
 Save the deployment credentials username and password somewhere immediately, as they will disappear. 
 Your deployment is ready after that! The page will direct you to a page that you can create your first index.
 
-## S2E4 - (Connect securely the Node.js server to Elastic Cloud)[https://ela.st/mbcc-season2-blog-4]
+## S2E4 - [Connect securely the Node.js server to Elastic Cloud](https://ela.st/mbcc-season2-blog-4)
 
 ### Authentication types
 There are 2 ways to connect to the Elastic Cloud
@@ -133,7 +132,7 @@ Create ELASTIC_ID, ELASTIC_USERNAME, ELASTIC_PASSWORD in .env file with actual c
 
 ### Connect server to communicate with Elastic Cloud securely with Elastic Search client
 
-Go to (Javascript client)[https://www.elastic.co/docs/reference/elasticsearch/clients/javascript] as we are using Node.js. This will allow your app to communicate with Elastic search cluster.
+Go to [Javascript client](https://www.elastic.co/docs/reference/elasticsearch/clients/javascript) as we are using Node.js. This will allow your app to communicate with Elastic search cluster.
 
 - Create a new instance of Elastic search client. This client will contain our elasticclub access credentials that points to our ES cluster. Then we will setup our server to connect to Elastic cloud and display a message in the terminal of its connection status. To do so in the **server** directory create a new directory named **elasticsearch** => **client.js** file. In the file write the following:
 
@@ -219,7 +218,7 @@ with this
  ```
 Now our app is using API key to connect instead of basic auth.
 
-## S2E5  - (Plan for effient data storage & search performance in Elasticsearch0[https://ela.st/mbcc-season2-blog-5]
+## S2E5  - [Plan for efficient data storage & search performance in Elasticsearch](https://ela.st/mbcc-season2-blog-5)
 
 ### Assess the API data 
 
@@ -233,9 +232,9 @@ We will use the last 30 days of the earthquakes data so be sure to have this pag
 The information shown here is what we need from the USGS API. We will store this information on Elasticsearch in the form of documents. Each document will contain information about one earthquake.
 
 **Examine the data struture of the earthquake API**
-- (Earthquake Catalog Documentation)[https://earthquake.usgs.gov/data/comcat/index.php#nst]
-- (USGS website - output data structure of the earthquake api )[https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php]
-- (USGS Data of last 30 days)[https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson]
+- [Earthquake Catalog Documentation](https://earthquake.usgs.gov/data/comcat/index.php#nst)
+- [USGS website - output data structure of the earthquake api](https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php)
+- [USGS Data of last 30 days](https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson)
 
 Check USGS Output => Features
 ```javascript
@@ -293,13 +292,13 @@ To save storage, we will only index the fields mag, place, time, url, sig(signif
 It does that by assigning types to fields being indexed. Depending on the assigned field type, each field is indexed and primed for different types of requests(full text search, exact searches, aggregations, sorting & etc).
 
 Choose correct typed for each field
-- (Elasticsearch Field data types)[https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/field-data-types]
-- (Elasticsearch Numeric field types)[https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/number]
-- (Elasticsearch Geopoint field type)[https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/geo-point]
+- [Elasticsearch Field data types](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/field-data-types)
+- [Elasticsearch Numeric field types](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/number)
+- [Elasticsearch Geopoint field type](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/geo-point)
 
 ![Table of the fields we need with data types](images/image-8.png)
 
-## S2E6  - (Setup Elasticsearch for data transformation and data ingestion)[https://ela.st/mbcc-season2-blog-6]
+## S2E6  - [Set up Elasticsearch for data transformation and data ingestion](https://ela.st/mbcc-season2-blog-6)
 
 1. create an **ingest pipeline** to transform the retrieved data
 2. create an index called **earthquakes** with the desired mapping
@@ -351,31 +350,41 @@ We will create it on Elastic Cloud page => Deployment => Stack Management => Ing
 
 Name your pipeline something like **earthquake_data_pipeline** .
 
-**Step1: Review the data transformation requirements**
+**Step 1: Review the data transformation requirements**
+
 - remove unnecessary parts from data
 - change the Unix epoch time to human readable timestap
 - create a coordinates.lat and coordinates.log fields
 
-- **add processors:**
+**add processors:**
  - remove the fields you dont need
 ![remove the fields you dont need](images/image-10.png)
+
  - change time format
+
  ![alt text](images/image-11.png)
+
  - remove time 
+
   ![alt text](images/image-12.png)
+
  - add coordinates
+
  ![alt text](images/image-13.png)
+
  ![alt text](images/image-14.png)
 
 We now have all the processors we need.
 
-**Step2: Create an ingest pipeline**
+**Step 2: Create an ingest pipeline**
+
 There are 2 ways to create an ingest pipeline; Kibana Ingest pipeline feature or The Ingest API. 
 We will use Kibana Ingest Pipeline.
 
 Under the list of processors, click on the **Create pipeline** button. You will see the pipeline create.
 
-**Step2: Create an Index**
+**Step 3: Create an Index**
+
 Go to Kibana Dev tools and paste the desired mapping:
 
 ```javascript
@@ -425,16 +434,17 @@ On the right side you will get response of:
   "index": "earthquakes"
 }
 ```
-## S2E7  - (Set eu the Node.js server to retrieve API data and send the data to elasticsearch)[https://ela.st/mbcc-season2-blog-7]
-- GitHub repo for episode 7
-https://ela.st/mbcc-season2-repo-7
+## S2E7  - [Set up the Node.js server to retrieve API data and send the data to Elasticsearch](https://ela.st/mbcc-season2-blog-7)
+[GitHub repo for episode 7](https://ela.st/mbcc-season2-repo-7)
 
 We will set up the server to retrieve data from the USGS api and then sne dthe retrieved data to Elasticsearch Earthquake data pipeline.
 ![alt text](images/image-15.png)
 
 
 ### Retrieve earthquake data from the USGS API
+
 In the project repo, under server folder, create a folder called **data_management**. Inside this folder create file called **retrieve_and_ingest_data.js**.
+
 This file will instruct the server to execute three things:
  - Upon receiving an http request retirieve earthquake data from the USGS API
  - Then send the retrieved data to ES Earthquake pipeline for data transformation
@@ -545,20 +555,25 @@ app.use('/ingest_data', data);
 The server.js should look like this:
 ![alt text](images/image-17.png)
 
-Let's see how it works
+Let's see how it works!
+
 Copy and paste the following url in the address bar of your browser and hit enter:
+
 ```javascript
 //in the address bar of your browser
 http://localhost:3001/ingest_data/earthquakes
 ```
 
-We will see the following in the terminal acknowledging that the data is being retrieved, transformed, and ingested into Elasticsearch. You will also see that a timestamp has been prepended to the messages printed on the console!
+We will see the following in the terminal acknowledging that the data is being retrieved, transformed, and ingested into Elasticsearch. 
+You will also see that a timestamp has been prepended to the messages printed on the console!
+
 ![alt text](images/image-18.png)
 
 Also on the browser we will see
+
 ![alt text](images/image-19.png)
 
-Now let's see if we got any data on ES. Enter your (ES account)[https://cloud.elastic.co/home]
+Now let's see if we got any data on ES. Enter your [ES account](https://cloud.elastic.co/home)
 Find your deployment of this project. 
 
 Home =>Hosted deployments => Actions: 'Manage' => Open Kibana => Discover => 'Search entire time range'
@@ -584,11 +599,10 @@ Click on the earthquakes index on the list. It will look like:
 
 Go back to Discover by clicking on Discover on the left bar. This will take you to all the **Hits**/ data.
 Click on one to expend to see the document details.
-![alt text](home/image-23.png)
+![alt text](images/image-23.png)
 
-## S2E8  - (Building the client with React)[https://ela.st/mbcc-season2-blog-8]
-- GitHub repo for episode 8
-https://ela.st/mbcc-season2-repo-8
+## S2E8  - [Building the client with React](https://ela.st/mbcc-season2-blog-8)
+[GitHub repo for episode 8](https://ela.st/mbcc-season2-repo-8)
 
 ![alt text](images/image-24.png)
 
@@ -610,14 +624,14 @@ On terminal:
 cd client
 npm start
 ```
-Click on **On Your Network:  http://192.168.0.199:3000** You will see the frontend works like:
+Click **On Your Network:  http://192.168.0.199:3000** You will see the frontend works like:
 ![alt text](images/image-26.png)
 
-## S2E9  - (Set up th Node.js server to handle ES request)[https://ela.st/mbcc-season2-blog-9]
--GitHub repo for episode 9
-https://ela.st/mbcc-season2-repo-9
+## S2E9  - [Set up th Node.js server to handle ES request](https://ela.st/mbcc-season2-blog-9)
+[GitHub repo for episode 9](https://ela.st/mbcc-season2-repo-9)
 
 The Client (Frontend) is designed to capture the user input and send it to the server. 
+
 Now we are going to set up the server to pass the user input into an ES request and send it to ES.
 ![alt text](images/image-27.png)
 
@@ -635,12 +649,12 @@ On terminal:
 cd earthquake_app
 npm start
 ```
-Now when you do a seach on the frontend (http://192.168.0.199:3000) you will see an as a result something like below:
-example of result of our search on client
+Now when you do a seach on the frontend *http://192.168.0.199:3000* you will see an as a result something like below:
+example of result of our search on client:
 ![alt text](images/image-28.png)
 
 If there is no data match, it will say no data found.
 
-## S2E10  - (Visualize data with Kibana Lens)[https://ela.st/mbcc-season2-blog-10]
+## S2E10  -[Visualize data with Kibana Lens](https://ela.st/mbcc-season2-blog-10)
 
 ![alt text](images/image-29.png)
