@@ -1,6 +1,7 @@
 # Offical Elastic Community - Earthquake Watch App
 
 ## S2E1 - (Project planning)[https://ela.st/mbcc-season2-blog-1]
+
 We are goinging to build a fullstack web app with Node.js and React. Then we will connect the server to Elastic Cloud. 
 ![Frontend-part1](images/image.png)
 ![Frontend-part2](images/image-1.png)
@@ -13,6 +14,9 @@ Next we will ingest global earthquake data into Elasticsearch, we will be gettin
 
 
 ## S2E2 - (Building Server using Node.js with Express)[https://ela.st/mbcc-season2-blog-2]
+- GitHub repo for episode 2
+https://ela.st/mbcc-season2-repo-2
+
 ### Create project on local and run it
 - On terminal
 ``` 
@@ -79,6 +83,7 @@ git push -u origin master
 ```
 
 ## S2E3 - (Create an Elastic Cloud deployment)[https://ela.st/mbcc-season2-blog-3]
+
 - Select a distribution model for your unique needs: Self-managed / Elastic Cloud / Elastic Cloud Enterprice / Elastic Cloud on Kubernetes.
 We will use **Elastic Cloud**. 
 
@@ -91,6 +96,7 @@ Save the deployment credentials username and password somewhere immediately, as 
 Your deployment is ready after that! The page will direct you to a page that you can create your first index.
 
 ## S2E4 - (Connect securely the Node.js server to Elastic Cloud)[https://ela.st/mbcc-season2-blog-4]
+
 ### Authentication types
 There are 2 ways to connect to the Elastic Cloud
  - Basic authentication (logging in as a user)
@@ -214,6 +220,7 @@ with this
 Now our app is using API key to connect instead of basic auth.
 
 ## S2E5  - (Plan for effient data storage & search performance in Elasticsearch0[https://ela.st/mbcc-season2-blog-5]
+
 ### Assess the API data 
 
 - Determine what data we need
@@ -293,6 +300,7 @@ Choose correct typed for each field
 ![Table of the fields we need with data types](images/image-8.png)
 
 ## S2E6  - (Setup Elasticsearch for data transformation and data ingestion)[https://ela.st/mbcc-season2-blog-6]
+
 1. create an **ingest pipeline** to transform the retrieved data
 2. create an index called **earthquakes** with the desired mapping
 
@@ -418,7 +426,8 @@ On the right side you will get response of:
 }
 ```
 ## S2E7  - (Set eu the Node.js server to retrieve API data and send the data to elasticsearch)[https://ela.st/mbcc-season2-blog-7]
-
+- GitHub repo for episode 7
+https://ela.st/mbcc-season2-repo-7
 
 We will set up the server to retrieve data from the USGS api and then sne dthe retrieved data to Elasticsearch Earthquake data pipeline.
 ![alt text](images/image-15.png)
@@ -578,3 +587,18 @@ Click on one to expend to see the document details.
 ![alt text](home/image-23.png)
 
 ## S2E8  - (Building the client with React)[https://ela.st/mbcc-season2-blog-8]
+- GitHub repo for episode 8
+https://ela.st/mbcc-season2-repo-8
+
+![alt text](images/image-24.png)
+
+Open a new terminal => cd to the Repo => *npx create-react-app client*
+When it is created then we are going to install a library called **axios** to send HTTP requests.
+On terminal do *cd client* => *npm i axios*
+
+Open package.json and add the following 
+```javascript
+	"proxy": "http://localhost:3001",
+```
+
+![alt text](images/image-25.png)
