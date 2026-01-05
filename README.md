@@ -602,3 +602,45 @@ Open package.json and add the following
 ```
 
 ![alt text](images/image-25.png)
+
+Then go to the Github repo, copy the App.js and App.css codes under the src folder and replace our codes of our repo files App.js and App.css with these ones.
+Now we can run our client to see how it looks like
+On terminal:
+```javascript
+cd client
+npm start
+```
+Click on **On Your Network:  http://192.168.0.199:3000** You will see the frontend works like:
+![alt text](images/image-26.png)
+
+## S2E9  - (Set up th Node.js server to handle ES request)[https://ela.st/mbcc-season2-blog-9]
+-GitHub repo for episode 9
+https://ela.st/mbcc-season2-repo-9
+
+The Client (Frontend) is designed to capture the user input and send it to the server. 
+Now we are going to set up the server to pass the user input into an ES request and send it to ES.
+![alt text](images/image-27.png)
+
+Make sure both the client and your server run on different terminals!
+
+On terminal:
+```javascript
+cd earthquake_app
+cd client
+npm start
+```
+
+On terminal:
+```javascript
+cd earthquake_app
+npm start
+```
+Now when you do a seach on the frontend (http://192.168.0.199:3000) you will see an as a result something like below:
+example of result of our search on client
+![alt text](images/image-28.png)
+
+If there is no data match, it will say no data found.
+
+## S2E10  - (Visualize data with Kibana Lens)[https://ela.st/mbcc-season2-blog-10]
+
+![alt text](images/image-29.png)
