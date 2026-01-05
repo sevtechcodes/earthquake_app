@@ -525,6 +525,8 @@ Remember the USGS API data structure covered in part 5?
 This array contains earthquake objects. Each object contains info about one earthquake.
 Within each object, the fields **properties**(orange box) and **geometry**(blue box) contain the information that we want(**pink box**).
 
+### Send the retrieved data to Elasticsearch earthquake_data_pipeline for data transformation
+
 Next we will add the data ingestion route to **server.js**
 ```javascript
 const data = require('./data_management/retrieve_and_ingest_data');
@@ -546,6 +548,33 @@ We will see the following in the terminal acknowledging that the data is being r
 
 Also on the browser we will see
 ![alt text](images/image-19.png)
-### Send the retrieved data to Elasticsearch earthquake_data_pipeline for data transformation
-### Instruct Elasticsearch to ingest the transformed data into the earthquakes index
 
+Now let's see if we got any data on ES. Enter your (ES account)[https://cloud.elastic.co/home]
+Find your deployment of this project. 
+
+Home =>Hosted deployments => Actions: 'Manage' => Open Kibana => Discover => 'Search entire time range'
+This will show the list of last 30 days. 
+![alt text](images/image-20.png)
+
+
+### Instruct Elasticsearch to ingest the transformed data into the earthquakes index
+Let's take a look to see if the data has been properly transformed and ingested into Elasticsearch via Kibana **Discover** tool.
+With Discover, you can quickly search and filter your data, get information about the structure of the fields, and display your findings in a visualization.
+
+In order to use Discover, we must first specify where it can find the data we want to explore.
+
+We do so by creating a data view.
+
+A data view allows you to specify the data source you want to explore so that Kibana could find this data.
+
+Kibana home page => Stack Management=> Data View => Create data view button => See that the index earthquakes is listed as one of our data sources.
+![alt text](images/image-21.png)
+
+Click on the earthquakes index on the list. It will look like:
+![alt text](images/image-22.png)
+
+Go back to Discover by clicking on Discover on the left bar. This will take you to all the **Hits**/ data.
+Click on one to expend to see the document details.
+![alt text](home/image-23.png)
+
+## S2E8  - (Building the client with React)[https://ela.st/mbcc-season2-blog-8]
